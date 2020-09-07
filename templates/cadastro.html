@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>RDS - Clientes</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initital-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+    <body>
+        <div class="container">
+           
+            <div class="col-md-2 backIndex">
+                <a href="/" class="btn btn-outline-secondary" href="index.html">Voltar</a>
+            </div>
+
+            <div class="col-md-6 formDiv">
+                <h2>Cadastro de clientes</h2>
+                <hr>
+                <form action="/cadastro/cadastrarCliente" method="POST">
+                    <div class="form-group">
+                        <label for="nome">Nome</label>
+                        <input class="form-control" id="nome" type="text" name="nome" 
+                            placeholder="Digite seu nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="idade">Idade</label>
+                        <input class="form-control" id="idade" type="number" min="0" 
+                            max="180" name="idade" placeholder="Digite sua idade" required> 
+                    </div>
+                    <div class="form-group">
+                        <label for="cpf">CPF</label>
+                        <input class="form-control cpf" id="cpf" type="text" name="cpf" 
+                            placeholder="Digite seu CPF" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                </form>
+
+                <div class="col-md-6 text-success bdSucesso" style="display:{{status}};">
+                    <p>Cadastrado com sucesso</p>
+                </div>
+            </div>
+            
+        </div>
+       
+        
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        
+        <!-- Para adicionar a máscara de entrada no campo do formulário -->
+        <script src="{{ url_for('static', filename='js/jquery.mask.js') }}"></script>
+        <script>
+            $(document).ready(function(){
+                $('.cpf').mask('000.000.000-00', {reverse: true});
+            });
+        </script>
+       
+    </body>
+
+<!--
+    No INPUT para não aceitar números negativos e outros caracteres no campo idade por exemplo 
+    onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+-->
+</html>
