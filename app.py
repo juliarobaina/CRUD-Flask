@@ -73,7 +73,7 @@ def remover():
 @app.route("/removerCliente/<idCliente>")
 def removerCliente(idCliente):
       
-    #para fazer querys
+    #para fazer consultas
     cur = mysql.connection.cursor()
     #excluir o cliente
     cur.execute("DELETE FROM clientes WHERE id = %s"%idCliente)
