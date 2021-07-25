@@ -2,4 +2,4 @@ static/js/* linguist-vendored
 static/css/* linguist-vendored
 bd/* linguist-vendored
 templates/* linguist-vendored
-app.py linguist-vendored=false
+
