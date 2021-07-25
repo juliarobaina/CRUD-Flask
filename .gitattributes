@@ -1,2 +1,2 @@
 static/js/* linguist-vendored
-jquery.mask.js linguist-vendored=false
+jquery.mask.js linguist-vendored=true
