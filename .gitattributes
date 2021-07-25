@@ -1,2 +1,5 @@
 static/js/* linguist-vendored
-jquery.mask.js linguist-vendored=true
+static/css/* linguist-vendored
+bd/* linguist-vendored
+templates/* linguist-vendored
+app.py linguist-vendored=false
