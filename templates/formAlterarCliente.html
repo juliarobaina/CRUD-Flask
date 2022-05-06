@@ -17,25 +17,25 @@
             <div class="col-md-6 formDiv">
                 <h2>Alterar de clientes</h2>
                 <hr>
-                {% for d in dados%}
+                {% for cliente in dados%}
           
                 <form action="/alterarCliente" method="POST">
                     <div class="form-group">
                         <input class="form-control" id="id" type="hidden" name="id" 
-                             value = {{d[0]}}>
+                             value = {{cliente[0]}}>
                         <label for="nome">Nome</label>
                         <input class="form-control" id="nome" type="text" name="nome" 
-                            placeholder="Digite seu nome" value = "{{d[1]}}" >
+                            placeholder="Digite seu nome" value = "{{cliente[1]}}" >
                     </div>
                     <div class="form-group">
                         <label for="idade">Idade</label>
                         <input class="form-control" id="idade" type="number" min="0" 
-                            max="180" value = "{{d[2]}}" name="idade" placeholder="Digite sua idade" > 
+                            max="180" value = "{{cliente[2]}}" name="idade" placeholder="Digite sua idade" > 
                     </div>
                     <div class="form-group">
                         <label for="cpf">CPF</label>
                         <input class="form-control cpf" id="cpf" type="text" name="cpf" 
-                        value = {{d[3]}} placeholder="Digite seu CPF" >
+                        value = {{cliente[3]}} placeholder="Digite seu CPF" >
                     </div>
                     <button type="submit" class="btn btn-primary">Alterar</button>
                 </form>
