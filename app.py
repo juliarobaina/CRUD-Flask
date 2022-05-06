@@ -1,12 +1,12 @@
 from flask import Flask, render_template,request,redirect,url_for
 from flask_mysqldb import MySQL
 
-#render_template: renderiza páginas html. OBS: Jinja2 que é possível criar os templates e usar python dentro do arquivo html
+#render_template: renderiza páginas html. OBS: Jinja2 que é possível criar os templates e usar python dentro do arquivo html. Não altera a URL.
 #request: receber requisições do usuário
-#redirect e url_for: redirecionamento, url_for determina pra onde redirecionar
+#redirect e url_for: redirecionamento, url_for determina pra onde redirecionar utilizando o nome da função, altera a URL, status HTTP por padrão 302
 #from flask_mysqldb import MySQL: utilizar MySQL como Banco de Dados
 
-app = Flask(__name__,template_folder='templates',static_folder='static')
+app = Flask(__name__)#Flask(__name__,template_folder='templates',static_folder='static') está com o valor padrão, por isso não precisa explicitar templates e static se for com esses valores
 #name:aplicação principal, não foi importado como módulo
 #template_folder: defini o diretório que está os templates
 #static_folder: defini o diretório que está os arquivos estáticos, como css e js.
@@ -21,8 +21,6 @@ mysql = MySQL(app)
 
 """
 @decorator são métodos que alteram o comportamento de outras funções.
-Ex: um decorator para saber se o usuário está logado ou não. Se estiver logado
-continua o fluxo do código, se não faz qualquer outra coisa.
 """
 
 @app.route("/")
@@ -41,11 +39,14 @@ def cpfRepetido(dados,cpf):
     return cpfRepetido
 
 @app.route("/cadastro/")
-@app.route("/cadastro/<cadastrarCliente>",  methods = ["GET","POST"])#URL dinâmicas
-def cadastro(cadastrarCliente = None):
+def cadastro():
+    return render_template("cadastro.html",status = "none")
     
-    if request.method == 'POST' and cadastrarCliente:#se veio por post e cadastrar não está vazio
-        
+
+@app.route("/cadastrarCliente",  methods = ["GET","POST"])#URL dinâmicas
+def cadastrarCliente():
+    
+    if request.method == 'POST':#se veio por post
         #receber dados do formulário
         nome = request.form['nome']
         idade = request.form['idade']
@@ -62,7 +63,8 @@ def cadastro(cadastrarCliente = None):
             
             #Caso exista CPF repetido
             if cpfRepetido(dados,cpf):
-                return redirect(url_for('index'))
+                return redirect(url_for("cadastro"))
+
 
             #inserir no BD
             cur.execute("INSERT INTO clientes (nome,idade,cpf) VALUES (%s,%s,%s)",(nome,idade,cpf))
@@ -71,20 +73,18 @@ def cadastro(cadastrarCliente = None):
             #fechar conexão do BD
             cur.close()
 
-            return render_template("cadastro.html", status = "block"), 201 #criado com sucesso
-        
-        else:
-            return redirect(url_for('cadastro'))
-            
-       
+            return redirect(url_for("cadastro"))
 
+        else:
+            return redirect(url_for("cadastro"))
+            
     else: #veio por GET
-        return render_template("cadastro.html",status = "none")
+        return redirect(url_for("cadastro"))
        
    
 @app.route("/remover")
 def remover():
-     #para fazer consultas
+    #para fazer consultas
     cur = mysql.connection.cursor()
     #consultar no BD
     cur.execute("SELECT * FROM clientes")
@@ -95,7 +95,7 @@ def remover():
     #fechar conexão do BD
     cur.close()
 
-    return render_template("remover.html", dados = dados,status = "none")
+    return render_template("remover.html", dados = dados)
 
 #pegar id da URL
 @app.route("/removerCliente/<idCliente>")
@@ -127,7 +127,7 @@ def alterar():
 
     return render_template("alterar.html", dados = dados)
 
-@app.route("/formularioAlterarCliente")
+
 @app.route("/formularioAlterarCliente/<idCliente>")
 def formAlterarCliente(idCliente = None):
 
@@ -148,7 +148,7 @@ def formAlterarCliente(idCliente = None):
        return redirect(url_for('alterar')) 
 
 #pegar id da URL
-@app.route("/alterarCliente", methods = ["GET","POST"])#methods = ["POST"]
+@app.route("/alterarCliente", methods = ["POST"])
 def alterarCliente():
    
     if request.method == 'POST':
